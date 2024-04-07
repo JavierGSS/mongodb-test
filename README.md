@@ -6,7 +6,7 @@
   <!-- <a href="https://test.netlify.app">Demo</a> -->
 </div>
 
-<h1 align="center">Test</h1>
+<h1 align="center">MongDB Connection Test</h1>
 
 <p align="center">
   <img alt="Github top language" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/test?color=56BEB8">
@@ -46,7 +46,7 @@
 
 ## :dart: About ##
 
-Describe your project
+Simple 
 
 ## :sparkles: Features ##
 
