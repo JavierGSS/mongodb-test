@@ -59,6 +59,8 @@ const sampleAccounts = [
   },
 ];
 
+const documentsToFind = { balance: { $gt: 4700 } };
+
 const main = async () => {
   /*   try {
     await connectToDatabase();
