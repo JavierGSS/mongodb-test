@@ -41,7 +41,7 @@ const sampleAccount = {
 };
 
 const main = async () => {
-  try {
+  /*   try {
     await connectToDatabase();
     const databasesList = await client.db().admin().listDatabases();
     databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
@@ -56,6 +56,16 @@ const main = async () => {
       })
       .then(console.log("Post in DB"));
     db.collection("posts").find({ age: { $eq: 46 } });
+  } catch (error) {
+    console.log(`Error connecting to database ${error}`);
+  } finally {
+    await client.close();
+  } */
+
+  try {
+    await connectToDatabase();
+    let result = await accountsCollection.insertOne(sampleAccount);
+    console.log(`Inserted doc: ${result.insertedId}`);
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
