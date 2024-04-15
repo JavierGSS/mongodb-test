@@ -61,7 +61,7 @@ const sampleAccounts = [
 
 const documentsToFind = { balance: { $gt: 5000 } };
 
-const documentToFind = { _id: ObjectId("661d8d0e7ac126474a43a25e") };
+const documentToFind = { _id: new ObjectId("661d8d0e7ac126474a43a25e") };
 
 const main = async () => {
   /*   try {
@@ -100,7 +100,7 @@ const main = async () => {
     }
     // await resultados.forEach((doc) => console.log(doc)); (analogous to the former command but deprecated)
     console.log(`${await docCount} documents match the query.`);
-    console.log("Resultado: found one doc");
+    console.log("Resultado: found one doc: ", resultado);
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
