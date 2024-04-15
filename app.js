@@ -59,7 +59,7 @@ const sampleAccounts = [
   },
 ];
 
-const documentsToFind = { balance: { $gt: 4700 } };
+const documentsToFind = { balance: { $gt: 5000 } };
 
 const main = async () => {
   /*   try {
@@ -85,11 +85,13 @@ const main = async () => {
 
   try {
     await connectToDatabase();
-    let result = await accountsCollection.insertOne(sampleAccount);
-    let results = await accountsCollection.insertMany(sampleAccounts);
-    console.log(`Inserted doc: ${result.insertedId}`);
-    console.log(`Inserted ${results.insertedCount} docs`);
-    console.log(results);
+    // let result = await accountsCollection.insertOne(sampleAccount);
+    // let results = await accountsCollection.insertMany(sampleAccounts);
+    let resultados = accountsCollection.find(documentsToFind);
+    // console.log(`Inserted doc: ${result.insertedId}`);
+    // console.log(`Inserted ${results.insertedCount} docs`);
+    // console.log(results);
+    console.log(`FIND result: ${resultados}`);
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
