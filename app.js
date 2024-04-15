@@ -40,6 +40,25 @@ const sampleAccount = {
   last_updated: new Date(),
 };
 
+const sampleAccounts = [
+  {
+    account_id: "MDB956478982",
+    account_holder: "Sharon King",
+    account_type: "checking",
+    balance: 1997.43,
+    transfers_complete: ["TR657633"],
+    last_updated: new Date(),
+  },
+  {
+    account_id: "MDB431478982",
+    account_holder: "Louise Smith",
+    account_type: "checking",
+    balance: 278297.43,
+    transfers_complete: ["TR658633", "TR759403"],
+    last_updated: new Date(),
+  },
+];
+
 const main = async () => {
   /*   try {
     await connectToDatabase();
