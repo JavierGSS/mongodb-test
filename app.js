@@ -84,7 +84,12 @@ const main = async () => {
   try {
     await connectToDatabase();
     let result = await accountsCollection.insertOne(sampleAccount);
+    let results = await accountsCollection.insertMany(sampleAccounts);
     console.log(`Inserted doc: ${result.insertedId}`);
+    console.log(`Result: ${result}`);
+    console.log(`Inserted docs: ${results.insertedIds}`);
+    console.log(`Count: ${results.insertedCount}`);
+    console.log(`Results: ${results}`);
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
