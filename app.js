@@ -32,11 +32,11 @@ const connectToDatabase = async () => {
 };
 
 const sampleAccount = {
-  account_id: "MDB956478532",
-  account_holder: "Pepito Pérez",
+  account_id: "MDB956478982",
+  account_holder: "Sharon King",
   account_type: "checking",
-  balance: 18927.43,
-  transfers_complete: ["TR657689", "TR657689"],
+  balance: 1997.43,
+  transfers_complete: ["TR657633"],
   last_updated: new Date(),
 };
 
