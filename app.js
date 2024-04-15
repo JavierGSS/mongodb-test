@@ -90,12 +90,17 @@ const main = async () => {
     // let result = await accountsCollection.insertOne(sampleAccount);
     // let results = await accountsCollection.insertMany(sampleAccounts);
     let resultados = accountsCollection.find(documentsToFind);
+    let resultado = accountsCollection.findOne(documentToFind);
     // console.log(`Inserted doc: ${result.insertedId}`);
     // console.log(`Inserted ${results.insertedCount} docs`);
     // console.log(results);
     let docCount = accountsCollection.countDocuments(documentsToFind);
-    await resultados.forEach((doc) => console.log(doc));
+    for await (const doc of resultados) {
+      console.log(doc);
+    }
+    // await resultados.forEach((doc) => console.log(doc)); (analogous to the former command but deprecated)
     console.log(`${await docCount} documents match the query.`);
+    console.log("Resultado: found one doc");
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
