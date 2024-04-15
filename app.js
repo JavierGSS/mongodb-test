@@ -20,6 +20,17 @@ const main = async () => {
     await connectToDatabase();
     const databasesList = await client.db().admin().listDatabases();
     databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
+    let db = client.db("blog");
+    await db
+      .collection("posts")
+      .insertOne({
+        "first name": "Teresa",
+        "last name": "Verthein",
+        age: 50,
+        title: "Impressions",
+      })
+      .then(console.log("Post in DB"));
+    db.collection("posts").find({ age: { $eq: 46 } });
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
   } finally {
