@@ -4,7 +4,9 @@ const uri = require("./atlas_uri.js");
 console.log("URI: ", uri);
 
 const client = new MongoClient(uri);
-const dbname = "Cluster0";
+const dbname = "test";
+const collection_name = "posts";
+const accountsCollection = client.db(dbname).collection(collection_name);
 
 const connectToDatabase = async () => {
   /*   const account = {
