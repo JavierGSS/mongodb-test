@@ -42,11 +42,11 @@ const sampleAccount = {
 
 const sampleAccounts = [
   {
-    account_id: "MDB956478982",
-    account_holder: "Sharon King",
+    account_id: "MDB959878982",
+    account_holder: "Patricia Socco",
     account_type: "checking",
-    balance: 1997.43,
-    transfers_complete: ["TR657633"],
+    balance: 837456.43,
+    transfers_complete: ["TR650433"],
     last_updated: new Date(),
   },
   {
