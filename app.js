@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const uri = require("./atlas_uri.js");
 
 console.log("URI: ", uri);
@@ -7,6 +7,20 @@ const client = new MongoClient(uri);
 const dbname = "Cluster0";
 
 const connectToDatabase = async () => {
+  const account = {
+    _id: new ObjectId(),
+    account_id: "MDB956478532",
+    account_holder: "Pepito Pérez",
+    balance: 18927.43,
+    transfers_complete: ["TR657689", "TR657689"],
+    address: {
+      city: "San Diego",
+      zip: 13245,
+      street: "MAIN ST",
+      number: 369,
+    },
+  };
+
   try {
     await client.connect();
     console.log(`Connected to ${dbname} database`);
