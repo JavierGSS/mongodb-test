@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const uri = require("./atlas_uri.js");
 
-console.log(uri);
+console.log("URI: ", uri);
 
 const client = new MongoClient(uri);
 const dbname = "Cluster0";
