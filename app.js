@@ -143,13 +143,14 @@ const deleteMany = { account_holder: { $eq: "Patricia Socco" } };
   } */
 // };
 
-let account_id_sender = "MDB956478532"; // Pepito P's account
-let account_id_receiver = "MDB956478982"; // Pepito P's account
-let transaction_amount = 250;
+let account_id_sender = "MDB956478532"; // Pepito's account
+let account_id_receiver = "MDB956478982"; // Sharon's account
+let transaction_amount = 40;
 
 const session = client.startSession(); // Start the client session
 
 const main = async () => {
+  console.log("Committing transactions...");
   try {
     // We define a sequence of operations to be performed inside a single transaction:
 
@@ -176,7 +177,7 @@ const main = async () => {
 
       // Step 3: Define & push to comments collection a new tranfer-document:
       const transfer = {
-        transfer_id: "TR667648",
+        transfer_id: "TR9283096",
         amount: transaction_amount,
         from_account: account_id_sender,
         to_account: account_id_receiver,
@@ -201,17 +202,9 @@ const main = async () => {
         { session }
       );
       console.log(
-        `${updateSenderTransferResults.modifiedCount} docs updated in sender; ${updateReceiverTransferResults} docs modified in receiver`
+        `${updateSenderTransferResults.modifiedCount} docs updated in sender; ${updateReceiverTransferResults.modifiedCount} docs modified in receiver`
       );
     });
-
-    console.log("Committing transactions...");
-
-    if (transactionResults) {
-      console.log("Transactions successful");
-    } else {
-      console.log("Transaction unsuccessful");
-    }
   } catch (error) {
     console.log(`Transaction aborted: ${error}`);
     process.exit(1);
