@@ -121,6 +121,12 @@ const main = async () => {
     newInfo.modifiedCount > 0
       ? console.log(`Updated ${newInfo.modifiedCount} docs.`)
       : console.log("No docs updated");
+    let deleted = await accountsCollection.deleteOne({
+      _id: new ObjectId("661d8d0e7ac126474a43a25e"),
+    });
+    deleted.deletedCount === 1
+      ? console.log(`Deleted ${deleted.deletedCount} docs.`)
+      : console.log("No docs deleted.");
   } catch (error) {
     console.error(`Error updating doc: ${error}`);
   } finally {
