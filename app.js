@@ -62,9 +62,6 @@ const sampleAccounts = [
 const documentsToFind = { balance: { $gt: 5000 } };
 const documentToFind = { _id: new ObjectId("661d8d0e7ac126474a43a25e") };
 
-const docToUpdate = { _id: new ObjectId("661d7db1489b490512643cb3") };
-const update = { $inc: { balance: 1500 } };
-
 const docsToUpdate = { account_type: "credit" };
 const updates = { $push: { transfers_complete: "TR6780633" } };
 
@@ -111,6 +108,11 @@ const main = async () => {
     await client.close();
   } */
 
+  const docToUpdate = { _id: new ObjectId("661d7db1489b490512643cb3") };
+  const update = { $inc: { balance: 1500 } };
+
+  const deleteMany = { account_holder: { $eq: "Patricia Socco" } };
+
   try {
     await connectToDatabase();
     let newData = await accountsCollection.updateOne(docToUpdate, update);
@@ -126,6 +128,10 @@ const main = async () => {
     });
     deleted.deletedCount === 1
       ? console.log(`Deleted ${deleted.deletedCount} docs.`)
+      : console.log("No docs deleted.");
+    let deletedMany = await accountsCollection.deleteMany(deleteMany);
+    deletedMany.deletedCount > 0
+      ? console.log(`DeletedMany ${deleted.deletedCount} docs.`)
       : console.log("No docs deleted.");
   } catch (error) {
     console.error(`Error updating doc: ${error}`);
