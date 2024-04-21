@@ -60,8 +60,13 @@ const sampleAccounts = [
 ];
 
 const documentsToFind = { balance: { $gt: 5000 } };
-
 const documentToFind = { _id: new ObjectId("661d8d0e7ac126474a43a25e") };
+
+const docToUpdate = { _id: new ObjectId("661d7db1489b490512643cb3") };
+const update = { $inc: { balance: 1500 } };
+
+const docsToUpdate = { account_type: "credit" };
+const updates = { $push: { transfers_complete: "TR6780633" } };
 
 const main = async () => {
   /*   try {
@@ -84,8 +89,7 @@ const main = async () => {
   } finally {
     await client.close();
   } */
-
-  try {
+  /*   try {
     await connectToDatabase();
     // let result = await accountsCollection.insertOne(sampleAccount);
     // let results = await accountsCollection.insertMany(sampleAccounts);
@@ -103,6 +107,22 @@ const main = async () => {
     console.log("Resultado: found one doc: ", resultado);
   } catch (error) {
     console.log(`Error connecting to database ${error}`);
+  } finally {
+    await client.close();
+  } */
+
+  try {
+    await connectToDatabase();
+    let newData = await accountsCollection.updateOne(docToUpdate, update);
+    newData.modifiedCount === 1
+      ? console.log("Updated one doc: ", newData.modifiedCount)
+      : console.log("No docs updated");
+    let newInfo = await accountsCollection.updateMany(docsToUpdate, updates);
+    newInfo.modifiedCount > 0
+      ? console.log(`Updated ${newInfo.modifiedCount} docs.`)
+      : console.log("No docs updated");
+  } catch (error) {
+    console.error(`Error updating doc: ${error}`);
   } finally {
     await client.close();
   }
