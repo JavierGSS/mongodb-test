@@ -33,6 +33,7 @@ const connectToDatabase = async () => {
   }
 };
 
+// Several constants are defined to perform the several operations, infra:
 const sampleAccount = {
   account_id: "MDB956478982",
   account_holder: "Sharon King",
@@ -67,8 +68,13 @@ const documentToFind = { _id: new ObjectId("661d8d0e7ac126474a43a25e") };
 const docsToUpdate = { account_type: "credit" };
 const updates = { $push: { transfers_complete: "TR6780633" } };
 
-const main = async () => {
-  /*   try {
+const docToUpdate = { _id: new ObjectId("661d7db1489b490512643cb3") };
+const update = { $inc: { balance: 1500 } };
+
+const deleteMany = { account_holder: { $eq: "Patricia Socco" } };
+
+// const main = async () => {
+/*   try {
     await connectToDatabase();
     const databasesList = await client.db().admin().listDatabases();
     databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
@@ -88,7 +94,7 @@ const main = async () => {
   } finally {
     await client.close();
   } */
-  /*   try {
+/*   try {
     await connectToDatabase();
     // let result = await accountsCollection.insertOne(sampleAccount);
     // let results = await accountsCollection.insertMany(sampleAccounts);
@@ -110,12 +116,7 @@ const main = async () => {
     await client.close();
   } */
 
-  const docToUpdate = { _id: new ObjectId("661d7db1489b490512643cb3") };
-  const update = { $inc: { balance: 1500 } };
-
-  const deleteMany = { account_holder: { $eq: "Patricia Socco" } };
-
-  try {
+/*   try {
     await connectToDatabase();
     let newData = await accountsCollection.updateOne(docToUpdate, update);
     newData.modifiedCount === 1
@@ -138,6 +139,83 @@ const main = async () => {
   } catch (error) {
     console.error(`Error updating doc: ${error}`);
   } finally {
+    await client.close();
+  } */
+// };
+
+let account_id_sender = "MDB956478532"; // Pepito P's account
+let account_id_receiver = "MDB956478982"; // Pepito P's account
+let transaction_amount = 250;
+
+const session = client.startSession(); // Start the client session
+
+const main = async () => {
+  try {
+    // We define a sequence of operations to be performed inside a single transaction:
+
+    const transactionResults = await session.withTransaction(async () => {
+      // Step 1: Update the sender's balance
+      const updateSenderResults = await accountsCollection.updateOne(
+        { account_id: account_id_sender },
+        { $inc: { balance: -transaction_amount } },
+        { session }
+      );
+      console.log(
+        `${updateSenderResults.matchedCount} docs matched the filter`
+      );
+
+      // Step 1: Update the receiver's balance
+      const updateReceiverResults = await accountsCollection.updateOne(
+        { account_id: account_id_receiver },
+        { $ince: { balance: transaction_amount } },
+        { session }
+      );
+      console.log(
+        `${updateReceiverResults.matchedCount} docs matched the filter`
+      );
+
+      // Step 3: Define & push to comments collection a new tranfer-document:
+      const transfer = {
+        transfer_id: "TR667648",
+        amount: transaction_amount,
+        from_account: account_id_sender,
+        to_account: account_id_receiver,
+      };
+
+      const insertTransferResults = await commCollection.insertOne(transfer, {
+        session,
+      });
+      console.log(
+        `Successfully inserted ${insertTransferResults.insertedId} into comments collection`
+      );
+
+      // Step 4: Update transfers_complete field in sender & receiver:
+      const updateSenderTransferResults = await accountsCollection.updateOne(
+        { account_id: account_id_sender },
+        { $push: { transfers_complete: transfer.transfer_id } },
+        { session }
+      );
+      const updateReceiverTransferResults = await accountsCollection.updateOne(
+        { account_id: account_id_receiver },
+        { $push: { transfers_complete: transfer.transfer_id } },
+        { session }
+      );
+      console.log(
+        `${updateSenderTransferResults.modifiedCount} docs updated in sender; ${updateReceiverTransferResults} docs modified in receiver`
+      );
+    });
+    console.log("Committing transactions...");
+
+    if (transactionResults) {
+      console.log("Transactions successful");
+    } else {
+      console.log("Transaction unsuccessful");
+    }
+  } catch (error) {
+    console.log(`Transaction aborted: ${error}`);
+    process.exit(1);
+  } finally {
+    await session.endSession();
     await client.close();
   }
 };
