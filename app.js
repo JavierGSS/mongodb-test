@@ -96,7 +96,7 @@ const main = async () => {
     // console.log(results);
     let docCount = accountsCollection.countDocuments(documentsToFind);
     for await (const doc of resultados) {
-      console.log(doc);
+      console.log("Resultados: ", doc);
     }
     // await resultados.forEach((doc) => console.log(doc)); (analogous to the former command but deprecated)
     console.log(`${await docCount} documents match the query.`);
