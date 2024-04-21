@@ -167,7 +167,7 @@ const main = async () => {
       // Step 1: Update the receiver's balance
       const updateReceiverResults = await accountsCollection.updateOne(
         { account_id: account_id_receiver },
-        { $ince: { balance: transaction_amount } },
+        { $inc: { balance: transaction_amount } },
         { session }
       );
       console.log(
@@ -204,6 +204,7 @@ const main = async () => {
         `${updateSenderTransferResults.modifiedCount} docs updated in sender; ${updateReceiverTransferResults} docs modified in receiver`
       );
     });
+
     console.log("Committing transactions...");
 
     if (transactionResults) {
