@@ -46,7 +46,7 @@
 
 ## :dart: About ##
 
-Simple MongoClient instance.
+Simple MongoClient instance, with several examples of queries to the MongoDB DB.
 
 ## :sparkles: Features ##
 
