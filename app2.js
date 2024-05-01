@@ -2,24 +2,36 @@
 
 const { MongoClient } = require("mongodb");
 const uri = require("./atlas_uri.js");
-console.log("URI: ", uri);
 const client = new MongoClient(uri);
-
-const dbname = "test";
-const collection_name = "posts";
-const comm_collection = "comments";
-const accountsCollection = client.db(dbname).collection(collection_name);
-const commCollection = client.db(dbname).collection(comm_collection);
+console.log("URI: ", uri);
 
 const pipeline = [
   // Stage 1: Match the accounts w/h balance > 100
-  { $match: { balance: { $gt: 100 } } },
+  { $match: { amount: { $gt: 100 } } },
   // Stage 2: Group and calculate average balance and total balance
   {
     $group: {
-      _id: "account_type",
-      total_balance: { $sum: "$balance" },
-      avg_balance: { $avg: "$balance" },
+      _id: "$account_type",
+      total_balance: { $sum: "$amount" },
+      avg_balance: { $avg: "$amount" },
     },
   },
 ];
+
+const main = async () => {
+  try {
+    await client.connect();
+    console.log(`DB connection success. \nFull connection string: ${uri}`);
+    let comments = client.db("test").collection("comments");
+    let result = comments.aggregate(pipeline);
+    for await (let doc of result) {
+      console.log(doc);
+    }
+  } catch (error) {
+    console.log("DB Error: ", error);
+  } finally {
+    await client.close();
+  }
+};
+
+main();
