@@ -1,4 +1,4 @@
-// We establish a connection to Mongo DB and initialize a collection object
+// We initialize a collection object
 
 const { MongoClient } = require("mongodb");
 const uri = require("./atlas_uri.js");
@@ -20,6 +20,7 @@ const pipeline = [
 
 const main = async () => {
   try {
+    // We establish a connection to MongoDB and run our aggregation pipeline
     await client.connect();
     console.log(`DB connection success. \nFull connection string: ${uri}`);
     let comments = client.db("test").collection("comments");
