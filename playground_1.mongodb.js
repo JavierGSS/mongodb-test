@@ -43,10 +43,10 @@ const productsData = [
   },
 ];
 
-db.products.insertMany(productsData);
+// db.products.insertMany(productsData);
 
 db.products.aggregate([
-  { $match: { category: "Smartphone" } },
+  { $match: { category: "Book" } },
   {
     $group: {
       _id: "$category",
