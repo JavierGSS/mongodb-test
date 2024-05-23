@@ -1,3 +1,4 @@
+const fs = require("fs");
 const database = "test";
 const collection = "products";
 
@@ -44,14 +45,28 @@ const productsData = [
 
 db.products.insertMany(productsData);
 
-console.log(
+db.products.aggregate([
+  { $match: { category: "Smartphone" } },
+  {
+    $group: {
+      _id: "$category",
+      numProducts: {
+        $sum: 1,
+      },
+    },
+  },
+]);
+
+/* console.log(
   `${database}.${collection} has ${db.products.countDocuments()} documents.`
 );
 
-const inStock = db.products.find({ price: { $gte: 25 } }).toArray();
+const inStock = db.products.find({ price: { $gte: 100 } }).toArray();
 
-use("test");
+fs.writeFileSync("./products.txt", JSON.stringify(inStock)); */
 
-db.products.createIndex({ category: 1 });
+/* use("test");
+
+db.products.createIndex({ category: 1 }); */
 
 // db.products.explain().find({ category: "Laptop" });
